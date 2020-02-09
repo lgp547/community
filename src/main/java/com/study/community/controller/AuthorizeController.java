@@ -11,7 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -30,14 +31,14 @@ public class AuthorizeController {
     @Value("${github.redirect.uri}")
     private String redirectUri;
 
-    @Autowired
+    @Autowired(required = false)
     private UserMapper userMapper;//这个报错会在运行的时候自动注入
 
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code")String code,
                            @RequestParam(name="state")String state,
-                           HttpServletRequest request){
+                           HttpServletResponse response){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
         accessTokenDTO.setState(state);
@@ -49,16 +50,21 @@ public class AuthorizeController {
 //        System.out.println(user.getName());
         if(githubUser != null){
             //成功,把内容 送到前端
-
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(githubUser.getId().toString());
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            //存储到数据库
             userMapper.insert(user);
+
+            //把token作为标识，传到前端
+            response.addCookie(new Cookie("token",token));
+
             //这个就是cookies，有这个就会一直保持登陆
-            request.getSession().setAttribute("user",githubUser);
+//            request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         } else {
             return "redirect:/";
