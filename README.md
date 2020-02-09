@@ -6,6 +6,8 @@
 * [es](https://elasticsearch.cn/explore)
 * [Bootstrap](https://v3.bootcss.com/components/) 
 * [Git OAuth](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
+* [flyway](https://flywaydb.org/getstarted/)
+
 
 ## 工具
 * [Git](https://git-scm.com/download)
@@ -21,6 +23,6 @@ CREATE TABLE USER
     TOKEN varchar(36),
     GMT_CREATE bigint,
     GMT_MODIFIED bigint
-)
+);
 
 ```
