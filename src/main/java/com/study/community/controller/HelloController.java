@@ -20,7 +20,7 @@ public class HelloController {
     public String index(HttpServletRequest request){
         //每次进来都进行查询token，和数据库匹配即是登陆
         Cookie[] cookies = request.getCookies();
-        if(cookies != null){
+        if(cookies != null && cookies.length != 0){
             for (Cookie cookie : cookies){
                 if(cookie.getName().equals("token")){
                     User user = userMapper.findByToken(cookie.getValue());

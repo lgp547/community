@@ -12,6 +12,7 @@
 ## 工具
 * [Git](https://git-scm.com/download)
 * [flyway](https://flywaydb.org/getstarted/)
+* [Lombok](https://projectlombok.org/)
 
 ## 脚本
 ```sql

@@ -47,8 +47,8 @@ public class AuthorizeController {
         accessTokenDTO.setRedirect_uri(redirectUri);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = gitHubProvider.getUser(accessToken);
-//        System.out.println(user.getName());
-        if(githubUser != null){
+
+        if(githubUser != null && githubUser.getId() != null){
             //成功,把内容 送到前端
             User user = new User();
             String token = UUID.randomUUID().toString();
@@ -57,6 +57,7 @@ public class AuthorizeController {
             user.setAccountId(githubUser.getId().toString());
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatar_url());
             //存储到数据库
             userMapper.insert(user);
 
