@@ -1,25 +1,35 @@
 package com.study.community.controller;
 
+import com.study.community.dto.PaginationDTO;
 import com.study.community.mapper.UserMapper;
 import com.study.community.model.User;
+import com.study.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class HelloController {
+public class IndexController {
 
     @Autowired(required = false)
     private UserMapper userMapper;
+
+    @Autowired(required = false)
+    private QuestionService questionService;
 
     /**
      * 响应根目录
      */
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
+    public String index(HttpServletRequest request,
+                        Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "5") Integer size) {
         //每次进来都进行查询token，和数据库匹配即是登陆
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0) {
@@ -34,6 +44,8 @@ public class HelloController {
             }
         }
 
+        PaginationDTO pagination = questionService.list(page,size);
+        model.addAttribute("pagination", pagination);
         return "index";
     }
 

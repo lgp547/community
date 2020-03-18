@@ -60,6 +60,14 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!--这个是热部署（开发者工具）-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-devtools</artifactId>-->
+			<!--<optional>true</optional>-->
+		<!--</dependency>-->
+
+
 
 
 		<dependency>
