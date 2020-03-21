@@ -22,6 +22,9 @@ public class PaginationDTO {
 
         if (totalCount % size == 0){
             totalPage = totalCount / size;
+            if (totalCount == 0){
+                totalPage = 1;
+            }
         } else {
             totalPage = totalCount /size + 1;
         }
@@ -49,19 +52,19 @@ public class PaginationDTO {
 
 
         //判断当前页数
-        if (page == 1) {
+        if (page == 1 ) {
             showPrevious = false;
         } else {
             showPrevious = true;
         }
-        if (page == totalPage ){
+        if (page.equals(totalPage)){
             showNext = false;
         } else{
             showNext = true;
         }
 
         //判断页面是否包含第1页
-        if (pages.contains(1)){
+        if (pages.contains(1) ){
             showFirstPage = false;
         } else {
             showFirstPage = true;
