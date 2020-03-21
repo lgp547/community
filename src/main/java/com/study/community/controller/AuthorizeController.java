@@ -57,7 +57,7 @@ public class AuthorizeController {
             user.setName(githubUser.getName());
             user.setAccountId(githubUser.getId().toString());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            user.setGmtModified(System.currentTimeMillis());
+
             //存储到数据库
             userService.createOrUpdate(user);
             //把token作为标识，传到前端
