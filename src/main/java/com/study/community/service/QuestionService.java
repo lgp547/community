@@ -4,6 +4,7 @@ import com.study.community.dto.PaginationDTO;
 import com.study.community.dto.QuestionDTO;
 import com.study.community.exception.CustomizeErrorCode;
 import com.study.community.exception.CustomizeException;
+import com.study.community.mapper.QuestionExtMapper;
 import com.study.community.mapper.QuestionMapper;
 import com.study.community.mapper.UserMapper;
 import com.study.community.model.Question;
@@ -26,6 +27,9 @@ public class QuestionService {
     @Autowired(required = false)
     private UserMapper userMappaer;
 
+    @Autowired(required = false)
+    private QuestionExtMapper  questionExtMapper;
+
     public PaginationDTO list(Integer page, Integer size) {
 
         PaginationDTO paginationDTO = new PaginationDTO();
@@ -46,7 +50,10 @@ public class QuestionService {
 
         //首先获得Question数据库
 //        List<Question> questionList = questionMapper.list(offset, size);
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample example = new QuestionExample();
+        example.createCriteria();
+        //这是有问题的，查询的description
+        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
 
         //最终的结果
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -57,6 +64,7 @@ public class QuestionService {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             questionDTO.setUser(user);
+            //没有描述信息要从新获取
             questionDTOList.add(questionDTO);
 
         }
@@ -103,7 +111,6 @@ public class QuestionService {
             BeanUtils.copyProperties(question,questionDTO);
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
-
         }
         paginationDTO.setQuestions(questionDTOList);
         return paginationDTO;
@@ -125,24 +132,42 @@ public class QuestionService {
     public void createOrUpdate(Question question) {
         if (question.getId() == null){
             //创建
+            question.setViewCount(0);
+            question.setCommentCount(0);
+            question.setLikeCount(0);
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
             questionMapper.insert(question);
         } else{
             //更新
             question.setGmtModified(System.currentTimeMillis());
-            Question updataQuestion = new Question();
-            updataQuestion.setGmtModified(System.currentTimeMillis());
-            updataQuestion.setTitle(question.getTitle());
-            updataQuestion.setDescription(question.getDescription());
-            updataQuestion.setTag(question.getTag());
+            Question updateQuestion = new Question();
+            updateQuestion.setGmtModified(System.currentTimeMillis());
+            updateQuestion.setTitle(question.getTitle());
+            updateQuestion.setDescription(question.getDescription());
+            updateQuestion.setTag(question.getTag());
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIdEqualTo(question.getId());
-            int update = questionMapper.updateByExampleSelective(updataQuestion, example);
+            int update = questionMapper.updateByExampleSelective(updateQuestion, example);
             if (update != 1){
                 throw new CustomizeException(CustomizeErrorCode.QUESTIOM_NOT_FOUND);
             }
         }
+    }
+
+    public void incView(Integer id) {
+//        Question question = questionMapper.selectByPrimaryKey(id);
+//        Question updateQuestion = new Question();
+//        updateQuestion.setViewCount(question.getViewCount() + 1);
+//        QuestionExample questionExample = new QuestionExample();
+//        questionExample.createCriteria()
+//                .andIdEqualTo(id);
+//        questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
