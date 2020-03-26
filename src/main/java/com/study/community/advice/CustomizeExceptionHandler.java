@@ -1,30 +1,40 @@
 package com.study.community.advice;
 
+import com.study.community.dto.ResultDTO;
+import com.study.community.exception.CustomizeErrorCode;
 import com.study.community.exception.CustomizeException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+//这个是异常捕捉控制类
 @ControllerAdvice
 public class CustomizeExceptionHandler {
+    //这个是指定捕抓那些异常
     @ExceptionHandler(Exception.class)
-    ModelAndView handle(HttpServletRequest request, Throwable e, Model model) {
-        if (e instanceof CustomizeException){
-            model.addAttribute("message",e.getMessage());
+    @ResponseBody
+    Object handle(HttpServletRequest request, Throwable e, Model model) {
+        String contentType = request.getContentType();
+        if ("application/json".equals(contentType)){
+            //返回JSON
+            if (e instanceof CustomizeException){
+                return ResultDTO.errorOf((CustomizeException)e);
+            } else {
+                return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
+            }
         } else {
-            model.addAttribute("message","服务冒烟了，要不等会再试试");
+            //错误页面
+            //instanceof是判断e是否属于CustomizeException类
+            if (e instanceof CustomizeException){
+                model.addAttribute("message",e.getMessage());
+            } else {
+                model.addAttribute("message",CustomizeErrorCode.SYS_ERROR.getMessage());
+            }
+            return new ModelAndView("error");
         }
-        return new ModelAndView("error");
     }
-
-//    private HttpStatus getStatus(HttpServletRequest request) {
-//        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-//        if (statusCode == null) {
-//            return HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//        return HttpStatus.valueOf(statusCode);
-//    }
 }

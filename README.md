@@ -22,14 +22,15 @@
 
 ## 工具
 [Git](https://git-scm.com/download)   
-[Visual Paradigm](https://www.visual-paradigm.com)    
+[Visual Paradigm uml建模](https://www.visual-paradigm.com)    
 [Flyway](https://flywaydb.org/getstarted/firststeps/maven)  
 [Lombok](https://www.projectlombok.org)    
-[ctotree](https://www.octotree.io/)   
-[Table of content sidebar](https://chrome.google.com/webstore/detail/table-of-contents-sidebar/ohohkfheangmbedkgechjkmbepeikkej)    
-[One Tab](https://chrome.google.com/webstore/detail/chphlpgkkbolifaimnlloiipkdnihall)    
-[Live Reload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei/related)  
-[Postman](https://chrome.google.com/webstore/detail/coohjcphdfgbiolnekdpbcijmhambjff)
+[ctotree github插件](https://www.octotree.io/)   
+[Table of content sidebar 插件](https://chrome.google.com/webstore/detail/table-of-contents-sidebar/ohohkfheangmbedkgechjkmbepeikkej)    
+[One Tab 插件](https://chrome.google.com/webstore/detail/chphlpgkkbolifaimnlloiipkdnihall)    
+[Live Reload 插件](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei/related)  
+[Postman 测试接口的插件](https://chrome.google.com/webstore/detail/coohjcphdfgbiolnekdpbcijmhambjff)
+[ApiPost 替换上一个的](https://www.apipost.cn/)
 
 ## 脚本
 ```sql

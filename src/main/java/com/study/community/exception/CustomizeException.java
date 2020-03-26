@@ -3,15 +3,7 @@ package com.study.community.exception;
 public class CustomizeException extends RuntimeException{
     //要把消息显示出来的
     private String message;
-
-    @Override
-    public String getMessage(){
-        return message;
-    }
-
-    public CustomizeException(String message) {
-        this.message = message;
-    }
+    private Integer code;
 
     /**
      * ----------------------------------分割线-----------------------------
@@ -20,7 +12,17 @@ public class CustomizeException extends RuntimeException{
      *  赋值进来需要的
      */
     public CustomizeException(ICustomizeErrorCode errorCode) {
+        this.code = errorCode.getCode();
         this.message = errorCode.getMessage();
+    }
+
+    @Override
+    public String getMessage(){
+        return message;
+    }
+
+    public Integer getCode() {
+        return code;
     }
 
 

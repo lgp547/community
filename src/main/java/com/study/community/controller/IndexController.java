@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class IndexController {
 
-//    @Autowired(required = false)
-//    private UserMapper userMapper;
 
     @Autowired(required = false)
     private QuestionService questionService;
@@ -29,7 +27,6 @@ public class IndexController {
                         @RequestParam(name = "size", defaultValue = "5") Integer size) {
         //每次进来都进行查询token，和数据库匹配即是登陆
         //已经使用拦截器实现
-
 
         PaginationDTO pagination = questionService.list(page,size);
         model.addAttribute("pagination", pagination);

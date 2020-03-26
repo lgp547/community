@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @Controller
+//地址实际就是/error 这个是仿照BasicErrorController的写的
+//查看它的值可以在application.properties里面查看默认值
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class CustomizeErrorController implements ErrorController {
     @Override
@@ -24,6 +26,7 @@ public class CustomizeErrorController implements ErrorController {
 
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView errorHtml(HttpServletRequest request, Model model) {
+        //抄写源码来的，为了实现其他错误也捕获
         HttpStatus status = getStatus(request);
 
         if (status.is4xxClientError()) {
@@ -35,6 +38,11 @@ public class CustomizeErrorController implements ErrorController {
         return new ModelAndView("error");
     }
 
+    /**
+     * 抄写源码来的
+     * @param request
+     * @return
+     */
     private HttpStatus getStatus(HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         if (statusCode == null) {

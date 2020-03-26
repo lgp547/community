@@ -92,7 +92,7 @@
 				<artifactId>flyway-maven-plugin</artifactId>
 				<version>6.2.2</version>
 				<configuration>
-					<url>jdbc:h2:E:/SSM/community/h2</url>
+					<url>jdbc:h2:E:/Java/SSM/community/h2</url>
 					<user>sa</user>
 					<password>123</password>
 				</configuration>
