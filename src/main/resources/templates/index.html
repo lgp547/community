@@ -10,6 +10,16 @@
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 
 </head>
+<script type="application/javascript">
+    window.onload = function () {
+//        debugger;//要提前把网页的控制台打开，不然不会停止
+        var closable = window.localStorage.getItem("closable");
+        if (closable == "true"){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
 
