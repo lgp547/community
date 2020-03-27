@@ -3,8 +3,8 @@ body {
 }
 
 .main {
-    background-color:white;
-    margin:30px;
+    background-color: white;
+    margin: 30px;
 }
 
 .btn-publish {
@@ -20,19 +20,22 @@ body {
 .media-body {
     padding-top: 10px;
 }
-.text-desc{
+
+.text-desc {
     font-size: 12px;
     font-weight: normal;
     color: #999999;
 }
 
-.profile .section{
+.profile .section {
     margin-top: 15px;
 }
 
 .community-menu {
     color: #999999;
-    font-size:13px;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 15px;
 }
 
 .jumbotron {
@@ -43,7 +46,36 @@ body {
     margin: 10px 0;
 }
 
-.btn-comment{
+.question-title {
+    margin-top: 25px;
+}
+
+.btn-comment {
     float: right;
     margin-bottom: 10px;
+}
+
+.comments {
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #999999;
+}
+
+.comment-sp {
+    margin-top: 5px;
+}
+
+.menu {
+    color: #999;
+    margin-top: 5px;
+}
+
+.menu .icon {
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu .icon:hover {
+    color: #499ef3;
 }

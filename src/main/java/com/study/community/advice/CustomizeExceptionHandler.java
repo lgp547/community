@@ -24,7 +24,7 @@ public class CustomizeExceptionHandler {
                 return ResultDTO.errorOf((CustomizeException)e);
             } else {
                 //return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-                return e;
+                return null;
             }
         } else {
             //错误页面
@@ -33,7 +33,7 @@ public class CustomizeExceptionHandler {
                 model.addAttribute("message",e.getMessage());
             } else {
 //                model.addAttribute("message",CustomizeErrorCode.SYS_ERROR.getMessage());
-                return e;
+                return null;
             }
             return new ModelAndView("error");
         }

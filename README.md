@@ -7,6 +7,7 @@
 [Spring Boot 开发指南](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#boot-features-embedded-database-support)    
 [MyBatis Generator 逆向工程](http://mybatis.org/generator/) 
 [mybatis-spring-boot-autoconfigure 自动配置](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
+[maven镜像查询]()
 
 [es](https://elasticsearch.cn/explore)    
 [Github deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys)    

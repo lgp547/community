@@ -60,6 +60,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!--使用String的判空函数-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
 		<!--这个是热部署（开发者工具）-->
 		<!--<dependency>-->
 			<!--<groupId>org.springframework.boot</groupId>-->
