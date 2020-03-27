@@ -4,10 +4,7 @@ import com.study.community.dto.CommentDTO;
 import com.study.community.enums.CommentTypeEnum;
 import com.study.community.exception.CustomizeErrorCode;
 import com.study.community.exception.CustomizeException;
-import com.study.community.mapper.CommentMapper;
-import com.study.community.mapper.QuestionExtMapper;
-import com.study.community.mapper.QuestionMapper;
-import com.study.community.mapper.UserMapper;
+import com.study.community.mapper.*;
 import com.study.community.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,9 @@ public class CommentService {
     @Autowired(required = false)
     private UserMapper userMapper;
 
+    @Autowired(required = false)
+    private CommentExtMapper commentExtMapper;
+
     @Transactional
     public void insert(Comment comment) {
         //进行各种防呆处理
@@ -53,6 +53,11 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insert(comment);
+            //增加评论数(是在问题(父类comment)进行评论数增加)
+            Comment parentComent = new Comment();
+            parentComent.setId(comment.getParentId());
+            parentComent.setCommentCount(1);
+            commentExtMapper.incCommentCount(parentComent);
         } else {
             //回复的是问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -67,11 +72,11 @@ public class CommentService {
         }
     }
 
-    public List<CommentDTO> listByQuestionId(Long id) {
+    public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(type.getType());
         commentExample.setOrderByClause("gmt_create desc");
         List<Comment> comments = commentMapper.selectByExample(commentExample);
 

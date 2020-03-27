@@ -10,13 +10,16 @@ import com.study.community.mapper.UserMapper;
 import com.study.community.model.Question;
 import com.study.community.model.QuestionExample;
 import com.study.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -31,7 +34,6 @@ public class QuestionService {
     private QuestionExtMapper  questionExtMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
-
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
 
@@ -40,20 +42,18 @@ public class QuestionService {
         }
         paginationDTO.setPagination(totalCount, page, size);
 
-
         if(page > paginationDTO.getTotalPage()){
             page = paginationDTO.getTotalPage();
         }
 
         Integer offset = size * (page - 1);
 
-
         //首先获得Question数据库
 //        List<Question> questionList = questionMapper.list(offset, size);
-        QuestionExample example = new QuestionExample();
-        example.createCriteria();
         //这是有问题的，查询的description
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
+        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
 
         //最终的结果
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -157,17 +157,29 @@ public class QuestionService {
     }
 
     public void incView(Long id) {
-//        Question question = questionMapper.selectByPrimaryKey(id);
-//        Question updateQuestion = new Question();
-//        updateQuestion.setViewCount(question.getViewCount() + 1);
-//        QuestionExample questionExample = new QuestionExample();
-//        questionExample.createCriteria()
-//                .andIdEqualTo(id);
-//        questionMapper.updateByExampleSelective(updateQuestion, questionExample);
-
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);
         questionExtMapper.incView(question);
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if (StringUtils.isBlank(queryDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(queryDTO.getTag(), ",");
+        //可以直接使用替换的功能，但不推荐
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexpTag);
+        //实现数据库查询
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q, questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }
