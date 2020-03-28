@@ -50,8 +50,19 @@ body {
 .community-menu {
     color: #999999;
     font-size: 13px;
-    display: block;
     margin-bottom: 15px;
+}
+
+.publish-tag-tab {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.publish-tag-tab .label-info {
+    white-space: normal;
+    margin: 5px 5px;
+    display: inline-block;
 }
 
 .jumbotron {
