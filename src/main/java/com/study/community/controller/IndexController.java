@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class IndexController {
 
-
-    @Autowired(required = false)
+    @Autowired
     private QuestionService questionService;
 
     /**

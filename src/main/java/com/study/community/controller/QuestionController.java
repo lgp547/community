@@ -16,10 +16,10 @@ import java.util.List;
 @Controller
 public class QuestionController {
 
-    @Autowired(required = false)
+    @Autowired
     private QuestionService questionService;
 
-    @Autowired(required = false)
+    @Autowired
     private CommentService commentService;
 
     @GetMapping("/question/{id}")

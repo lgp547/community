@@ -40,6 +40,8 @@
         <table tableName="user" domainObjectName="User" ></table>
         <table tableName="question" domainObjectName="Question" ></table>
         <table tableName="comment" domainObjectName="Comment" ></table>
+        <table tableName="notification" domainObjectName="Notification" ></table>
+
             <!--驼峰标识<property name="useActualColumnNames" value="true"/>-->
             <!--<generatedKey column="ID" sqlStatement="DB2" identity="true" />-->
             <!--修改内省参数<columnOverride column="DATE_FIELD" property="startDate" />-->

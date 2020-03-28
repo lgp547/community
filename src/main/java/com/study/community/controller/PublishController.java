@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class PublishController {
 
-    @Autowired(required = false)
+    @Autowired
     private QuestionService questionService;
 
     @GetMapping("/publish/{id}")
