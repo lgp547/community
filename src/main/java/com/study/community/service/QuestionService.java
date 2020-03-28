@@ -2,6 +2,7 @@ package com.study.community.service;
 
 import com.study.community.dto.PaginationDTO;
 import com.study.community.dto.QuestionDTO;
+import com.study.community.dto.QuestionQueryDTO;
 import com.study.community.exception.CustomizeErrorCode;
 import com.study.community.exception.CustomizeException;
 import com.study.community.mapper.QuestionExtMapper;
@@ -33,9 +34,20 @@ public class QuestionService {
     @Autowired(required = false)
     private QuestionExtMapper  questionExtMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search, Integer page, Integer size) {
+
+        if (StringUtils.isNotBlank(search)) {
+            String[] tags = StringUtils.split(search, " ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+        //Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
 
         if (page < 1) {
             page = 1;
@@ -49,15 +61,13 @@ public class QuestionService {
         Integer offset = size * (page - 1);
 
         //首先获得Question数据库
-//        List<Question> questionList = questionMapper.list(offset, size);
-        //这是有问题的，查询的description
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
 
         //最终的结果
         List<QuestionDTO> questionDTOList = new ArrayList<>();
-        for (Question question : questionList){
+        for (Question question : questions){
             //通过question的id查询得到user数据库内容
             User user = userMappaer.selectByPrimaryKey(question.getCreator());
             //最后返回是带有user的QuestionDTO

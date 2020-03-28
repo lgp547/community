@@ -2,33 +2,56 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--这句是正确映射的路径-->
 <mapper namespace="com.study.community.mapper.QuestionExtMapper">
-  <resultMap id="BaseResultMap" type="com.study.community.model.Question">
-    <id column="ID" jdbcType="INTEGER" property="id" />
-    <result column="TITLE" jdbcType="VARCHAR" property="title" />
-    <result column="GMT_CREATE" jdbcType="BIGINT" property="gmtCreate" />
-    <result column="GMT_MODIFIED" jdbcType="BIGINT" property="gmtModified" />
-    <result column="CREATOR" jdbcType="INTEGER" property="creator" />
-    <result column="COMMENT_COUNT" jdbcType="INTEGER" property="commentCount" />
-    <result column="VIEW_COUNT" jdbcType="INTEGER" property="viewCount" />
-    <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
-    <result column="TAG" jdbcType="VARCHAR" property="tag" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.study.community.model.Question">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="TITLE" jdbcType="VARCHAR" property="title"/>
+        <result column="GMT_CREATE" jdbcType="BIGINT" property="gmtCreate"/>
+        <result column="GMT_MODIFIED" jdbcType="BIGINT" property="gmtModified"/>
+        <result column="CREATOR" jdbcType="INTEGER" property="creator"/>
+        <result column="COMMENT_COUNT" jdbcType="INTEGER" property="commentCount"/>
+        <result column="VIEW_COUNT" jdbcType="INTEGER" property="viewCount"/>
+        <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount"/>
+        <result column="TAG" jdbcType="VARCHAR" property="tag"/>
+    </resultMap>
 
-  <update id="incView" parameterType="com.study.community.model.Question">
-    update QUESTION
-    set
-    VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
-    where id = #{id}
-  </update>
+    <update id="incView" parameterType="com.study.community.model.Question">
+        UPDATE QUESTION
+        SET
+            VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
+        WHERE id = #{id}
+    </update>
 
-  <update id="incCommentCount" parameterType="com.study.community.model.Question">
-    update QUESTION
-    set
-    COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
-    where id = #{id}
-  </update>
+    <update id="incCommentCount" parameterType="com.study.community.model.Question">
+        UPDATE QUESTION
+        SET
+            COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
+        WHERE id = #{id}
+    </update>
 
-  <select id="selectRelated" parameterType="com.study.community.model.Question" resultMap="BaseResultMap">
-    select * from QUESTION where id != #{id} and tag regexp #{tag}
-  </select>
+    <select id="selectRelated" parameterType="com.study.community.model.Question" resultMap="BaseResultMap">
+        SELECT *
+        FROM QUESTION
+        WHERE id != #{id} AND tag REGEXP #{tag}
+    </select>
+
+    <select id="countBySearch" parameterType="com.study.community.dto.QuestionDTO"
+            resultType="java.lang.Integer">
+        SELECT count(*) FROM QUESTION
+        <where>
+            <if test="search != null">
+                and title regexp #{search}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBySearch" parameterType="com.study.community.dto.QuestionQueryDTO"
+            resultMap="BaseResultMap">
+        select * from QUESTION
+        <where>
+            <if test="search != null">
+                and title regexp #{search}
+            </if>
+        </where>
+        order by gmt_create desc limit #{page},#{size}
+    </select>
 </mapper>
