@@ -34,7 +34,7 @@ public class ProFileController {
             return "redirect:/";
         }
 
-        if ("question".equals(action)) {
+        if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
             PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
