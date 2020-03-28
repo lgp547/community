@@ -51,7 +51,7 @@ mvn flyway:migrate
 -- 覆盖并生成
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 ```
-
+头像地址：https://avatars0.githubusercontent.com/u/51388510?v=4
 ## 更新日志
 - 2019-7-30 修复 session 过期时间很短问题   
 - 2019-8-2 修复因为*和+号产生的搜索异常问题  

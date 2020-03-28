@@ -3,9 +3,9 @@
 <head>
     <title>学习社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="css/community.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/community.css">
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 
@@ -40,7 +40,7 @@
                     <h4 class="media-heading">
                         <a th:href="@{'/question/' + ${question.id}}" th:text="${question.title}"></a>
                     </h4>
-                    相关:&nbsp;<span th:text="${question.tag}"></span>&nbsp;&nbsp;
+                    相关:&nbsp;<span th:text="${question.tag}"></span><br>
                     <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 ·
                         <span th:text="${question.viewCount}"></span> 次浏览 ·
                         <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
