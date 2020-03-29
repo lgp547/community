@@ -48,6 +48,7 @@ CREATE TABLE USER
 
 ```bash
 mvn flyway:migrate
+-- 若出现版本不一致可以使用 mvn flyway:repair 进行修复
 -- 覆盖并生成
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 ```

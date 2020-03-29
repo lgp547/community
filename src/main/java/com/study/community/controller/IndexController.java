@@ -3,6 +3,7 @@ package com.study.community.controller;
 import com.study.community.dto.PaginationDTO;
 import com.study.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,9 @@ public class IndexController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Value("${github.client.id}")
+    private String clientId;
 
     /**
      * 响应根目录
@@ -32,6 +36,7 @@ public class IndexController {
         PaginationDTO pagination = questionService.list(search, page, size);
         model.addAttribute("pagination", pagination);
         model.addAttribute("search",search);
+        model.addAttribute("clientId", clientId);
         return "index";
     }
 

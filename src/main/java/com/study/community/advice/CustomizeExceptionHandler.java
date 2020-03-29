@@ -1,6 +1,7 @@
 package com.study.community.advice;
 
 import com.study.community.dto.ResultDTO;
+import com.study.community.exception.CustomizeErrorCode;
 import com.study.community.exception.CustomizeException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,8 +24,7 @@ public class CustomizeExceptionHandler {
             if (e instanceof CustomizeException){
                 return ResultDTO.errorOf((CustomizeException)e);
             } else {
-                //return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
-                return null;
+                return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
             }
         } else {
             //错误页面
@@ -32,7 +32,7 @@ public class CustomizeExceptionHandler {
             if (e instanceof CustomizeException){
                 model.addAttribute("message",e.getMessage());
             } else {
-//                model.addAttribute("message",CustomizeErrorCode.SYS_ERROR.getMessage());
+                model.addAttribute("message",CustomizeErrorCode.SYS_ERROR.getMessage());
                 return null;
             }
             return new ModelAndView("error");
