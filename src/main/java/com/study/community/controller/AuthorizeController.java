@@ -1,7 +1,7 @@
 package com.study.community.controller;
 
 import com.study.community.dto.AccessTokenDTO;
-import com.study.community.dto.GithubUser;
+import com.study.community.dto.GitHubUser;
 import com.study.community.model.User;
 import com.study.community.provider.GitHubProvider;
 import com.study.community.service.UserService;
@@ -47,7 +47,7 @@ public class AuthorizeController {
         accessTokenDTO.setClient_secret(clientSecret);
         accessTokenDTO.setRedirect_uri(redirectUri);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
-        GithubUser githubUser = gitHubProvider.getUser(accessToken);
+        GitHubUser githubUser = gitHubProvider.getUser(accessToken);
 
         if(githubUser != null && githubUser.getId() != null){
             //成功,把内容 送到前端

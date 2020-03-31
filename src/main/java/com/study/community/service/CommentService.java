@@ -40,6 +40,11 @@ public class CommentService {
     @Autowired(required = false)
     private NotificationMapper notificationMapper;
 
+    /**
+     * 事务是为了在提交回复的时候，评论数也能保证增加
+     * @param comment
+     * @param commentator
+     */
     @Transactional
     public void insert(Comment comment, User commentator) {
         //进行各种防呆处理

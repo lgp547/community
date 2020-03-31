@@ -32,28 +32,10 @@ public class IndexController {
     ) {
         //每次进来都进行查询token，和数据库匹配即是登陆
         //已经使用拦截器实现
-
         PaginationDTO pagination = questionService.list(search, page, size);
         model.addAttribute("pagination", pagination);
-        model.addAttribute("search",search);
+        model.addAttribute("search", search);
         model.addAttribute("clientId", clientId);
         return "index";
     }
-
-//    @GetMapping("/hello")
-//    public String hello(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
-//        model.addAttribute("name", name);
-//        return "hello";
-//    }
-//    页面响应：
-//    <!DOCTYPE HTML>
-//<html xmlns:th="http://www.thymeleaf.org">
-//<head>
-//    <title>Getting Started: Serving Web Content</title>
-//    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-//</head>
-//<body>
-//<p th:text="'Hello, ' + ${name} + '!'" />
-//</body>
-//</html>
 }
