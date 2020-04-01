@@ -13,9 +13,9 @@ public class GitHubProvider {
     public String getAccessToken(AccessTokenDTO accessTokenDTO){
 
         /*这段功能为：将数据发送到服务。------------------------------------------------------------*/
+        //okhttp是一个处理网络请求的开源项目,https://square.github.io/okhttp/
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
-
         //把对象(accessTokenDTO)属性转到json,需要jar包(fastjson)
         RequestBody body = RequestBody.create(JSON.toJSONString(accessTokenDTO), mediaType);
         Request request = new Request.Builder()
@@ -23,6 +23,7 @@ public class GitHubProvider {
                 .post(body)
                 .build();
 
+        //一般放的是对资源的申请，如果{}中的代码出项了异常，()中的资源就会被关闭
         try (Response response = client.newCall(request).execute()) {
             String string = response.body().string();
             String token = string.split("&")[0].split("=")[1];
