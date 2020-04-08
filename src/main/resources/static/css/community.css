@@ -1,5 +1,5 @@
 body {
-    background-color: #efefef;
+    background-color: #efefff;
 }
 
 .main {
@@ -44,7 +44,7 @@ body {
 }
 
 .question-wechat {
-    width: 100%;
+    width: 60%;
 }
 
 .community-menu {

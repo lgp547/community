@@ -123,7 +123,6 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
         paginationDTO.setData(questionDTOList);
-        paginationDTO.setShowFirstPage(true);
         return paginationDTO;
     }
 
