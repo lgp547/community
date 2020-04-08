@@ -3,6 +3,8 @@ package com.study.community.provider;
 import com.alibaba.fastjson.JSON;
 import com.study.community.dto.AccessTokenDTO;
 import com.study.community.dto.GitHubUser;
+import com.study.community.exception.CustomizeErrorCode;
+import com.study.community.exception.CustomizeException;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +51,8 @@ public class GitHubProvider {
             GitHubUser githubUser = JSON.parseObject(string, GitHubUser.class);
             return githubUser;
         } catch (IOException e) {
-            return null;
+            throw new CustomizeException(CustomizeErrorCode.GitHub_NOT_RESPONSE);
+//            return null;
             //e.printStackTrace();
         }
     }

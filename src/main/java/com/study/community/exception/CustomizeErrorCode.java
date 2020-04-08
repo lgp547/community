@@ -11,6 +11,7 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     CONTENT_IS_EMPTY(2007, "输入的内容不能为空"),
     READ_NOTIFICATION_FAIl(2008,"你这是读取别人的消息"),
     NOTIFICATION_NOT_FOUND(2009, "消息不存在"),
+    GitHub_NOT_RESPONSE(2010, "GitHub访问无响应，请从试"),
     ;
 
 
